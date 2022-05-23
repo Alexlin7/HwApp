@@ -1,0 +1,44 @@
+﻿@model WebApplication3.Models.Guestbooks
+@{
+    ViewBag.Title = " 修改留言";
+}
+@* 建立修改欄位所須的表單*@
+@using (Html.BeginForm())
+{
+    <h3> 修改留言</h3>
+    @* 建立修改留言表格*@
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Name)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Name
+         )
+                @Html.ValidationMessageFor(model => model.Name)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Content)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Content)
+                @Html.ValidationMessageFor(model => model.Content)
+            </td>
+        </tr>
+    </table>
+    @* 判斷是否有人回覆，如果無人回覆，即可修改，否則不可修改*@
+    if (Model.ReplyTime == null)
+    {
+        <input type="submit" value=" 修改留言" class="btn btn-success"/>
+    }
+    else
+    {
+        <text> 此留言已回覆無法修改，請</text>
+        @Html.ActionLink(" 返回列表", "Index")
+    }
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

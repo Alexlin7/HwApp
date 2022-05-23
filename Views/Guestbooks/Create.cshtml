@@ -1,0 +1,32 @@
+﻿@model WebApplication3.Models.Guestbooks
+
+
+@* 建立新增資料所須的表單*@
+@using (Html.BeginForm("Create", "Guestbooks"))
+{
+    <h2> 新增留言</h2>
+    <table class="table table-bordered">
+        @* 新增姓名欄位區塊*@
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Name)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </td>
+        </tr>
+        @* 新增內容欄位區塊*@
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Content)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Content)
+                @Html.ValidationMessageFor(model => model.Content)
+
+            </td>
+        </tr>
+    </table>
+    <input class="btn btn-success" type="submit" value=" 新增留言" />
+}

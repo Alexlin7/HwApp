@@ -1,0 +1,13 @@
+﻿.carousel .item {
+    height: 450px;
+    background-color: #777;
+}
+
+.carousel-inner > .item > img {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-width: auto;
+    height: 450px;
+}
+

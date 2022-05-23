@@ -1,0 +1,86 @@
+﻿@model WebApplication3.ViewModels.GuestbooksViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@* 載入新增留言頁面*@
+<div id="CreateData">
+    @Html.Action("Create")
+</div>
+
+
+<h2> 留言板</h2>
+<table class="table table-bordered">
+    @* 如果資料庫中不是零筆記錄，則顯示資料，並列出新增、刪除與修改連結*@
+    @if (!Model.DataList.Count.Equals(0))
+    {
+        foreach (var item in Model.DataList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.DataList[0].Name)
+                </td>
+                <td>
+                    @item.Name
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.DataList[0].CreateTime)
+                </td>
+                <td>
+                    @item.CreateTime
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.DataList[0].Content)
+                </td>
+                <td colspan="3">
+                    @item.Content
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.DataList[0].Reply)
+                </td>
+                <td colspan="3">
+                    @item.Reply
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.DataList[0].ReplyTime)
+                </td>
+                <td>
+                    @item.ReplyTime
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.ActionLink(" 修改留言", "Edit", new { Id = item.Id })
+
+                </td>
+                <td>
+                    @Html.ActionLink(" 回覆留言", "Reply", new { Id = item.Id }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    }
+    @* 如果資料庫中為零筆記錄，則印出" 資料庫內查無資料"*@
+    else
+    {
+        <tr>
+            <td colspan="4">
+                資料庫內查無資料
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
