@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using HwApp1410931031.Services;
+using HwApp1410931031.ViewModels;
 
-using WebApplication3.Models;
-using WebApplication3.Services;
-using WebApplication3.ViewModels;
-
-namespace WebApplication3.Controllers
+namespace HwApp1410931031.Controllers
 {
     public class ImgCarouselController : Controller
     {

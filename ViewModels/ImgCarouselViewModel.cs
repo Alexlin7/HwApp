@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using HwApp1410931031.Models;
 
-using System.ComponentModel;
-using WebApplication3.Models;
-
-namespace WebApplication3.ViewModels
+namespace HwApp1410931031.ViewModels
 {
     public class ImgCarouselViewModel
     {

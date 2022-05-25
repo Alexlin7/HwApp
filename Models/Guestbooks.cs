@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-
-namespace WebApplication3.Models
+namespace HwApp1410931031.Models
 {
     public class Guestbooks
     {

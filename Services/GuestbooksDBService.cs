@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
 using System.Configuration;
 using System.Data.SqlClient;
-using WebApplication3.Models;
+using HwApp1410931031.Models;
 
-namespace WebApplication3.Services
+namespace HwApp1410931031.Services
 {
     public class GuestbooksDBService
     {
