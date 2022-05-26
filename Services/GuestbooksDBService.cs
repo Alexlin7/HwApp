@@ -30,11 +30,13 @@ namespace HwApp1410931031.Services
                 SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read()) // 獲得下一筆資料直到沒有資料
                 {
-                    Guestbooks Data = new Guestbooks();
-                    Data.Id = Convert.ToInt32(dr["Id"]);
-                    Data.Name = dr["Name"].ToString();
-                    Data.Content = dr["Content"].ToString();
-                    Data.CreateTime = Convert.ToDateTime(dr["CreateTime"]);
+                    Guestbooks Data = new Guestbooks
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+                        Name = dr["Name"].ToString(),
+                        Content = dr["Content"].ToString(),
+                        CreateTime = Convert.ToDateTime(dr["CreateTime"])
+                    };
                     // 確定此則留言是否回覆，且不允許空白
                     // 因C# 是強型別語言，所以轉換時Datetime 型態不允許存取null
                     if (!dr["ReplyTime"].Equals(DBNull.Value))

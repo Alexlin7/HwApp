@@ -4,7 +4,6 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
     @* 如果資料庫中不是零筆記錄，則顯示資料，並列出新增、刪除與修改連結*@
     @if (!Model.DataList.Count.Equals(0))
@@ -60,8 +59,8 @@
     }
 </div>
 
-<div>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/M7FH1dL51oU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/M7FH1dL51oU""></iframe>
 </div>
 
 @section Scripts {

@@ -23,9 +23,11 @@ namespace HwApp1410931031.Services
                 SqlDataReader dr = cmd.ExecuteReader(); // 取得Sql 資料
                 while (dr.Read()) // 獲得下一筆資料直到沒有資料
                 {
-                    ImgCarousel Data = new ImgCarousel();
-                    Data.pid = Convert.ToInt32(dr["pid"]);
-                    Data.pfile = dr["pfile"].ToString();
+                    ImgCarousel Data = new ImgCarousel
+                    {
+                        pid = Convert.ToInt32(dr["pid"]),
+                        pfile = dr["pfile"].ToString()
+                    };
                     if (!dr["ptitle"].Equals(DBNull.Value))
                     {
                         Data.ptitle = dr["ptitle"].ToString();

@@ -143,6 +143,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\banner3.jpg" />
+    <Content Include="Images\banner.jpg" />
+    <Content Include="Images\banner2 %282%29.png" />
+    <Content Include="Images\banner2.png" />
     <Content Include="Images\part_1.jpg" />
     <Content Include="Images\part_2.jpg" />
     <Content Include="Images\part_3.jpg" />
