@@ -1,0 +1,156 @@
+﻿@model HwApp1410931031.ViewModels.GuestbooksViewModel
+
+<div id="DataList">
+    <h2> 留言板</h2>
+
+    @* 建立搜尋所須的表單*@
+    @using (Ajax.BeginForm("GetDataList", "Guestbooks", new AjaxOptions()
+    {
+        InsertionMode = InsertionMode.Replace, UpdateTargetId = "DataList"
+    }))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Search)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Search)
+        </td>
+        <td>
+            <input type="submit" value=" 搜尋" />
+        </td>
+    </tr>
+</table>
+}
+
+    <table class="table table-bordered">
+        @* 如果資料庫中不是零筆記錄，則顯示資料，並列出新增、刪除與修改連結*@
+        @if (!Model.DataList.Count.Equals(0))
+        {
+            foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataList[0].Name)
+                    </td>
+                    <td>
+                        @item.Name
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataList[0].CreateTime)
+                    </td>
+                    <td>
+                        @item.CreateTime
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataList[0].Content)
+                    </td>
+                    <td colspan="3">
+                        @item.Content
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataList[0].Reply)
+                    </td>
+                    <td colspan="3">
+                        @item.Reply
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataList[0].ReplyTime)
+                    </td>
+                    <td>
+                        @item.ReplyTime
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.ActionLink(" 修改留言", "Edit", new { Id = item.Id })
+                        @Html.ActionLink(" 刪除留言", "Delete", new { Id = item.Id })
+
+                    </td>
+                    <td>
+                        @Html.ActionLink(" 回覆留言", "Reply", new { Id = item.Id }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        }
+        @* 如果資料庫中為零筆記錄，則印出" 資料庫內查無資料"*@
+        else
+        {
+            <tr>
+                <td colspan="4">
+                    資料庫內查無資料
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                @* 若目前所在頁數大於1，則顯示上一頁與最前頁的按鈕*@
+                @if (Model.Paging.NowPage > 1)
+                {
+                    @Ajax.ActionLink("<<", "Index", new { Page = 1, Search = Model.Search }, new AjaxOptions()
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "DataList"
+                    })
+                    @Ajax.ActionLink("<", "Index", new { Page = Model.Paging.NowPage - 1, Search = Model.Search }, new AjaxOptions()
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "DataList"
+                    })
+                }
+            </td>
+
+            <td>
+                @* 顯示當前頁數前後各五頁的頁數*@
+                @for (var page = (Model.Paging.NowPage - 6); page < (Model.Paging.NowPage + 6); page++)
+                {
+                    if ((page > 0) && (page <= Model.Paging.MaxPage))
+                    {
+                        if (page == Model.Paging.NowPage)
+                        {
+                            <b>@page</b>
+                        }
+                        else
+                        {
+                            @Ajax.ActionLink(page.ToString(), "Index", new { Page = page, Search = Model.Search }, new AjaxOptions()
+                            {
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "DataList"
+                            })
+                        }
+                    }
+                }
+            </td>
+
+            <td>
+                @* 若目前所在頁數小於總頁數，則顯示下一頁與最後一頁的按鈕*@
+                @if (Model.Paging.NowPage < Model.Paging.MaxPage)
+                {
+                    @Ajax.ActionLink(">", "Index", new { Page = Model.Paging.NowPage + 1, Search = Model.Search }, new AjaxOptions()
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "DataList"
+                    })
+                    @Ajax.ActionLink(">>", "Index", new { Page = Model.Paging.MaxPage, Search = Model.Search }, new AjaxOptions()
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "DataList"
+                    })
+                }
+            </td>
+        </tr>
+    </table>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+

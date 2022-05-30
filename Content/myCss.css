@@ -1,16 +1,4 @@
-﻿.carousel .item {
-    height: 450px;
-    background-color: #777;
-}
-
-.carousel-inner > .item > img {
-    position: relative;
-    top: 0;
-    left: 0;
-    min-width: auto;
-    height: 450px;
-}
-
+﻿
 .banner {
     position: relative;
     margin: 0 0 15px;
@@ -21,6 +9,20 @@
         width: 100%;
         height: 300px;
     }
+
+    .carousel .item {
+        height: 450px;
+        background-color: #778899;
+    }
+
+    .carousel-inner > .item > img {
+        position: relative;
+        top: 0;
+        left: 0;
+        min-width: auto;
+        height: 450px;
+    }
+
 }
 
 @media screen and (min-width: 480px) and (max-width: 767px) {
@@ -28,6 +30,20 @@
         width: 100%;
         height: 250px;
     }
+
+    .carousel .item {
+        height: 250px;
+        background-color: #778899;
+    }
+
+    .carousel-inner > .item > img {
+        position: relative;
+        top: 0;
+        left: 0;
+        min-width: auto;
+        height: 250px;
+    }
+
 }
 
 @media screen and (max-width: 479px) {
@@ -35,6 +51,20 @@
         width: 100%;
         height: 150px;
     }
+
+    .carousel .item {
+        height: 150px;
+        background-color: #778899;
+    }
+
+    .carousel-inner > .item > img {
+        position: relative;
+        top: 0;
+        left: 0;
+        min-width: auto;
+        height: 150px;
+    }
+
 }
 
     

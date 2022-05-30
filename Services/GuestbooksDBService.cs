@@ -13,12 +13,46 @@ namespace HwApp1410931031.Services
         //建立與資料庫的連線
         private readonly SqlConnection conn = new SqlConnection(cnstr);
 
-        public List<Guestbooks> GetDataList()
+        public List<Guestbooks> GetDataList(ForPaging Paging, string Search)
         {
+            List<Guestbooks> DataList = new List<Guestbooks>();
+            //Sql 語法
+            string sql = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(Search))
+            {
+                // 有搜尋條件時
+                SetMaxPaging(Paging, Search);
+                DataList = GetAllDataList(Paging, Search);
+            }
+            else
+            {
+                // 無搜尋條件時
+                SetMaxPaging(Paging);
+                DataList = GetAllDataList(Paging);
+            }
+
+            return DataList;
+        }
+
+        public List<Guestbooks> GetDataList(string Search)
+        {
+
 
             List<Guestbooks> DataList = new List<Guestbooks>();
             //Sql 語法
-            string sql = @" SELECT * FROM Guestbooks; ";
+            string sql = string.Empty;
+            if (!string.IsNullOrWhiteSpace(Search))
+            {
+                // 有搜尋條件時
+                sql = $@" SELECT * FROM Guestbooks WHERE Name LIKE '%{Search}%' OR Content LIKE '%{Search}%' OR Reply LIKE '%{Search}%'; ";
+            }
+            else
+            {
+                // 無搜尋條件時
+                sql = @" SELECT * FROM Guestbooks; ";
+            }
+
             // 確保程式不會因執行錯誤而整個中斷
             try
             {
@@ -190,5 +224,207 @@ namespace HwApp1410931031.Services
             }
         }
         #endregion
+
+        #region 刪除資料
+        // 刪除資料方法
+        public void DeleteGuestbooks(int Id)
+        {
+            //Sql 刪除語法
+            // 根據Id 取得要刪除的資料
+            string sql = $@" DELETE FROM Guestbooks WHERE Id = {Id}; ";
+            try// 確保程式不會因執行錯誤而整個中斷
+            {
+                conn.Open(); // 開啟資料庫連線
+                SqlCommand cmd = new SqlCommand(sql, conn); // 執行Sql 指令
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message.ToString()); // 丟出錯誤
+            }
+            finally
+            {
+                conn.Close(); // 關閉資料庫連線
+            }
+        }
+        #endregion
+
+        // 無搜尋值的搜尋資料方法
+        #region 設定最大頁數方法
+        // 無搜尋值的設定最大頁數方法
+        public void SetMaxPaging(ForPaging Paging)
+        {
+            // 計算列數
+            int Row = 0;
+            //Sql 語法
+            string sql = $@" SELECT * FROM Guestbooks; ";
+            // 確保程式不會因執行錯誤而整個中斷
+            try
+            {
+                // 開啟資料庫連線
+                conn.Open();
+                // 執行Sql 指令
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                // 取得Sql 資料
+                SqlDataReader dr = cmd.ExecuteReader(); 
+                while (dr.Read()) // 獲得下一筆資料直到沒有資料
+                {
+                    Row++;
+                }
+            }
+            catch (Exception e)
+            {
+                // 丟出錯誤
+                throw new Exception(e.Message.ToString());
+            }
+            finally
+            {
+                // 關閉資料庫連線
+                conn.Close();
+            }
+            // 計算所需的總頁數
+            Paging.MaxPage = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Row) / Paging.ItemNum));
+            // 重新設定正確的頁數，避免有不正確值傳入
+            Paging.SetRightPage();
+        }
+
+        // 有搜尋值的設定最大頁數方法
+        public void SetMaxPaging(ForPaging Paging, string Search)
+        {
+            // 計算列數
+            int Row = 0;
+            //Sql 語法
+            string sql = $@" SELECT * FROM Guestbooks WHERE Name LIKE '%{Search}%' OR Content LIKE '%{Search}%' OR Reply LIKE '%{Search}%'; ";
+            // 確保程式不會因執行錯誤而整個中斷
+            try
+            {
+                // 開啟資料庫連線
+                conn.Open();
+                // 執行Sql 指令
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                // 取得Sql 資料
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read()) // 獲得下一筆資料直到沒有資料
+                {
+                    Row++;
+                }
+            }
+            catch (Exception e)
+            {
+                // 丟出錯誤
+                throw new Exception(e.Message.ToString());
+            }
+            finally
+            {
+                // 關閉資料庫連線
+                conn.Close();
+            }
+            // 計算所需的總頁數
+            Paging.MaxPage = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(Row) / Paging.ItemNum));
+            // 重新設定正確的頁數，避免有不正確值傳入
+            Paging.SetRightPage();
+        }
+        #endregion
+
+        #region 搜尋資料方法
+        // 無搜尋值的搜尋資料方法
+        public List<Guestbooks> GetAllDataList(ForPaging paging)
+        {
+            // 宣告要回傳的搜尋資料為資料庫中的Guestbooks 資料表
+            List<Guestbooks> DataList = new List<Guestbooks>();
+            //Sql 語法
+            string sql = $@" SELECT *
+                                    FROM (SELECT row_number() OVER(order by Id) AS sort,* FROM Guestbooks ) m
+                                    WHERE m.sort BETWEEN {(paging.NowPage - 1) * paging.ItemNum + 1} 
+                                    AND { paging.NowPage * paging.ItemNum}; ";
+            // 確保程式不會因執行錯誤而整個中斷
+            try
+            {
+                // 開啟資料庫連線
+                conn.Open();
+                // 執行Sql 指令
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                // 取得Sql 資料
+                SqlDataReader dr = cmd.ExecuteReader(); while (dr.Read()) // 獲得下一筆資料直到沒有資料
+                {
+                    Guestbooks Data = new Guestbooks();
+                    Data.Id = Convert.ToInt32(dr["Id"]);
+                    Data.Name = dr["Name"].ToString();
+                    Data.Content = dr["Content"].ToString();
+                    Data.CreateTime = Convert.ToDateTime(dr["CreateTime"]);
+                    // 確定此則留言是否回覆，且不允許空白
+                    // 因C# 是強型別語言，所以轉換時Datetime 型態不允許存取null
+                    if (!dr["ReplyTime"].Equals(DBNull.Value))
+                    {
+                        Data.Reply = dr["Reply"].ToString();
+                        Data.ReplyTime = Convert.ToDateTime(dr["ReplyTime"]);
+                    }
+                    DataList.Add(Data);
+                }
+            }
+            catch (Exception e)
+            {
+                // 丟出錯誤
+                throw new Exception(e.Message.ToString());
+            }
+            finally
+            {
+                // 關閉資料庫連線
+                conn.Close();
+            }
+            // 回傳搜尋資料
+            return DataList;
+        }
+        
+
+        // 有搜尋值的搜尋資料方法
+        public List<Guestbooks> GetAllDataList(ForPaging paging, string Search)
+        {
+            // 宣告要回傳的搜尋資料為資料庫中的Guestbooks 資料表
+            List<Guestbooks> DataList = new List<Guestbooks>();
+            //Sql 語法
+            string sql = $@" SELECT * 
+                                FROM (SELECT row_number() OVER(order by Id) AS sort,* 
+                                FROM Guestbooks WHERE Name LIKE '%{Search}%' OR Content LIKE '%{Search}%' 
+                                OR Reply LIKE '%{Search}%' ) m 
+                                WHERE m.sort BETWEEN {(paging.NowPage - 1) * paging.ItemNum + 1} 
+                                AND {paging.NowPage * paging.ItemNum}; ";
+            // 確保程式不會因執行錯誤而整個中斷
+            try
+            {
+                // 開啟資料庫連線
+                conn.Open();
+                // 執行Sql 指令
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                // 取得Sql 資料
+                SqlDataReader dr = cmd.ExecuteReader(); while (dr.Read()) // 獲得下一筆資料直到沒有資料
+                {
+                    Guestbooks Data = new Guestbooks();
+                    Data.Id = Convert.ToInt32(dr["Id"]);
+                    Data.Name = dr["Name"].ToString();
+                    Data.Content = dr["Content"].ToString();
+                    Data.CreateTime = Convert.ToDateTime(dr["CreateTime"]);
+                    // 確定此則留言是否回覆，且不允許空白 (因C# 是強型別語言，所以轉換時Datetime 型態不允許存取null)
+                    if (!dr["ReplyTime"].Equals(DBNull.Value))
+                    {
+                        Data.Reply = dr["Reply"].ToString();
+                        Data.ReplyTime = Convert.ToDateTime(dr["ReplyTime"]);
+                    }
+                    DataList.Add(Data);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message.ToString()); // 丟出錯誤
+            }
+            finally
+            {
+                conn.Close(); // 關閉資料庫連線
+            }
+            return DataList; // 回傳搜尋資料
+        }
+        #endregion
+
+
     }
 }

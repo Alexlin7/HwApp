@@ -10,19 +10,38 @@ namespace HwApp1410931031.Controllers
         //宣告Guestbooks資料表的Service物件
         private readonly GuestbooksDBService GuestbookService = new GuestbooksDBService();
 
-
-        // GET: Guestbooks
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        #region 開始頁面
+        public ActionResult GetDataList(string Search, int Page = 1)
         {
             // 宣告一個新頁面模型
             GuestbooksViewModel Data = new GuestbooksViewModel();
-            //從Service 中取得頁面所需陣列資料
-            Data.DataList = GuestbookService.GetDataList();
-            //將頁面資料傳入View 中
-            return View(Data);
 
+            // 將傳入值Search(搜尋) 放入頁面模型中
+            Data.Search = Search;
+
+            // 新增頁面模型中的分頁
+            Data.Paging = new ForPaging(Page);
+
+            // 從Service 中取得頁面所需陣列資料
+            Data.DataList = GuestbookService.GetDataList(Data.Paging, Data.Search);
+
+            // 將頁面資料傳入View 中
+            return PartialView(Data);
         }
 
+        [HttpPost]
+        //設定為接受頁面Post傳入
+        public ActionResult GetDataList([Bind(Include = "Search")] GuestbooksViewModel Data)
+        {
+            return RedirectToAction("GetDataList", new { Search = Data.Search });
+        }
+        #endregion
+        
         #region 新增留言
         // 新增留言一開始載入頁面
         public ActionResult Create()
@@ -103,6 +122,19 @@ namespace HwApp1410931031.Controllers
             }
         }
         #endregion
+
+        #region 刪除留言
+        // 刪除頁面要根據傳入編號來刪除資料
+        public ActionResult Delete(int Id)
+        {
+            // 使用Service 來刪除資料
+            GuestbookService.DeleteGuestbooks(Id);
+            // 重新導向頁面至開始頁面
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        
 
     }
 }

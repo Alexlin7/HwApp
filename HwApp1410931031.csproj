@@ -128,6 +128,7 @@
     <Compile Include="Models\Guestbooks.cs" />
     <Compile Include="Models\ImgCarousel .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ForPaging.cs" />
     <Compile Include="Services\GuestbooksDBService.cs" />
     <Compile Include="Services\ImgCarouselDBService.cs" />
     <Compile Include="ViewModels\GuestbooksViewModel.cs" />
@@ -143,11 +144,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\part_1.jpg" />
     <Content Include="Images\banner3.jpg" />
     <Content Include="Images\banner.jpg" />
     <Content Include="Images\banner2 %282%29.png" />
     <Content Include="Images\banner2.png" />
-    <Content Include="Images\part_1.jpg" />
     <Content Include="Images\part_2.jpg" />
     <Content Include="Images\part_3.jpg" />
     <Content Include="Images\part_4.jpg" />
@@ -181,6 +182,7 @@
     <Content Include="Views\Guestbooks\Index.cshtml" />
     <Content Include="Views\Guestbooks\Reply.cshtml" />
     <Content Include="Views\ImgCarousel\Index.cshtml" />
+    <Content Include="Views\Guestbooks\GetDataList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
