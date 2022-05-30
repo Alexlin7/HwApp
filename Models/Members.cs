@@ -17,15 +17,16 @@ namespace HwApp1410931031.Models
         public string Account { get; set; }
 
         public string Password { get; set; }
+
         [DisplayName("名稱")]
         [StringLength(20, ErrorMessage = "名稱最多20字")]
         [Required(ErrorMessage = "請輸入名稱")]
         public string Name { get; set; }
 
-        [DisplayName("電子信箱")]
+        [DisplayName("Email")]
         [Required(ErrorMessage = "請輸入Email")]
         [StringLength(200, ErrorMessage = "長度最多200字元")]
-        [EmailAddress(ErrorMessage = "這不是Emial格式")]
+        [EmailAddress(ErrorMessage = "這不是Email格式")]
         public string Email { get; set; }
 
         public string AuthCode { get; set; }

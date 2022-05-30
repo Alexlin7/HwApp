@@ -122,6 +122,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GuestbooksController.cs" />
     <Compile Include="Controllers\ImgCarouselController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -132,10 +133,11 @@
     <Compile Include="Services\ForPaging.cs" />
     <Compile Include="Services\GuestbooksDBService.cs" />
     <Compile Include="Services\ImgCarouselDBService.cs" />
+    <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\MembersDBService.cs" />
     <Compile Include="ViewModels\GuestbooksViewModel.cs" />
     <Compile Include="ViewModels\ImgCarouselViewModel.cs" />
-    <Compile Include="ViewModels\MemberRegisterViewModel.cs" />
+    <Compile Include="ViewModels\MembersRegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -169,6 +171,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\Shared\RegisterEmailTemplate.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -186,6 +189,9 @@
     <Content Include="Views\Guestbooks\Reply.cshtml" />
     <Content Include="Views\ImgCarousel\Index.cshtml" />
     <Content Include="Views\Guestbooks\GetDataList.cshtml" />
+    <Content Include="Views\Members\Register.cshtml" />
+    <Content Include="Views\Members\RegisterResult.cshtml" />
+    <Content Include="Views\Members\EmailValidate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

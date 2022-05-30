@@ -41,6 +41,7 @@ namespace HwApp1410931031.Services
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 throw new Exception(e.Message.ToString());
             }
             finally
@@ -75,7 +76,7 @@ namespace HwApp1410931031.Services
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand();
+                SqlCommand cmd = new SqlCommand(sql, conn);
                 SqlDataReader dr = cmd.ExecuteReader();
                 dr.Read();
                 Data.Account = dr["Account"].ToString();
@@ -87,7 +88,7 @@ namespace HwApp1410931031.Services
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message.ToString());
+                Data = null;
             }
             finally
             {
@@ -133,7 +134,7 @@ namespace HwApp1410931031.Services
                         conn.Close();
                     }
 
-                    ValidateStr = "帳號驗證成功現在可以登入了";
+                    ValidateStr = "帳號驗證成功，現在可以登入了";
                 }
                 else
                 {

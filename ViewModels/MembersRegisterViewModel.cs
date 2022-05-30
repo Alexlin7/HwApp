@@ -4,13 +4,13 @@ using HwApp1410931031.Models;
 
 namespace HwApp1410931031.ViewModels
 {
-    public class MemberRegisterViewModel
+    public class MembersRegisterViewModel
     {
         public  Members NewMember { get; set; }
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "請輸入密碼")]
-        public string Passowrd { get; set; }
+        public string Password { get; set; }
 
         [DisplayName("確認密碼")]
         [Compare("Password", ErrorMessage = "兩次密碼不一致")]
