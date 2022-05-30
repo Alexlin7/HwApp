@@ -8,9 +8,9 @@ namespace HwApp1410931031.Services
 {
     public class MailService
     {
-        private string gmail_account = " ";
-        private string gmail_password = " ";
-        private string gmail_mail = " ";
+        private string gmail_account = "alexlin901107";
+        private string gmail_password = "vymeiqoxbluulwmh";
+        private string gmail_mail = "alexlin901107@gmail.com";
 
         #region 寄送會員驗證信件
 
@@ -47,12 +47,13 @@ namespace HwApp1410931031.Services
 
         public void SendRegisterMail(string MailBody, string ToEmail)
         {
+            Console.WriteLine("假裝寄信");
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential(gmail_account, gmail_password);
             SmtpServer.EnableSsl = true;
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(gmail_account);
+            mail.From = new MailAddress(gmail_mail);
             mail.To.Add(ToEmail);
             mail.Subject = "會員註冊確認信";
             mail.Body = MailBody;

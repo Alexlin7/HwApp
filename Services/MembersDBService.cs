@@ -71,7 +71,7 @@ namespace HwApp1410931031.Services
         {
             Members Data = new Members();
 
-            string sql = $@" select * from Members where Account = '{Account} ";
+            string sql = $@" select * from Members where Account = '{Account}' ";
 
             try
             {
@@ -88,6 +88,7 @@ namespace HwApp1410931031.Services
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 Data = null;
             }
             finally
@@ -150,6 +151,55 @@ namespace HwApp1410931031.Services
         }
         #endregion
 
+        #region 登入確認
+
+        public string LoginCheck(string Account, string Password)
+        {
+            Members LoginMember = GetDataByAccount(Account);
+            if (LoginMember != null)
+            {
+                if (String.IsNullOrWhiteSpace(LoginMember.AuthCode))
+                {
+                    if (PasswordCheck(LoginMember, Password))
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        return "密碼輸入錯誤";
+                    }
+                }
+                else
+                {
+                    return "此帳號尚未通過Email認證，請去收信";
+                }
+            }
+            return "查無此帳號，請註冊";
+        }
+        #endregion
+
+        #region 密碼確認
+
+        public bool PasswordCheck(Members CheckMember, string Password)
+        {
+            return CheckMember.Password.Equals(HashPassword(Password));
+        }
+        #endregion
+
+        #region 取得角色
+
+        public string GetRole(string Account)
+        {
+            string Role = "user";
+            Members LoginMember = GetDataByAccount(Account);
+            if (LoginMember.IsAdmin)
+            {
+                Role += ",Admin";
+            }
+
+            return Role;
+        }
+        #endregion
 
     }
 }

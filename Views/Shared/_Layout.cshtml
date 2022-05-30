@@ -28,6 +28,10 @@
                 <li>
                     <a href="https://nakiri.canaria.cc/" target="_blank">私心推薦</a>
                 </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("登出", "Logout", "Members")</li>
+                }
             </ul>
         </div>
     </div>

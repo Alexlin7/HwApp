@@ -27,7 +27,7 @@
                 @Html.LabelFor(model => model.Password)
             </td>
             <td>
-                @Html.TextBoxFor(model => model.Password)
+                @Html.PasswordFor(model => model.Password)
                 @Html.ValidationMessageFor(model => model.Password)
             </td>
         </tr>
@@ -36,7 +36,7 @@
                 @Html.LabelFor(model => model.PasswordCheck)
             </td>
             <td>
-                @Html.TextBoxFor(model => model.PasswordCheck)
+                @Html.PasswordFor(model => model.PasswordCheck)
                 @Html.ValidationMessageFor(model => model.PasswordCheck)
             </td>
         </tr>

@@ -1,0 +1,43 @@
+﻿@model HwApp1410931031.ViewModels.MembersLoginViewModel
+
+@{
+    ViewBag.Title = "登入";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<h2>登入</h2>
+
+@using (Html.BeginForm())
+{
+<table>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Account)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.Account)
+            @Html.ValidationMessageFor(model => model.Account)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Password)
+        </td>
+        <td>
+            @Html.PasswordFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="submit" value="登入"/>
+            @Html.ActionLink("去註冊", "Register")
+        </td>
+    </tr>
+</table>
+}
+

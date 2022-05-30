@@ -45,10 +45,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="jose-jwt, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\jose-jwt.4.0.0\lib\net472\jose-jwt.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -130,6 +134,8 @@
     <Compile Include="Models\ImgCarousel .cs" />
     <Compile Include="Models\Members.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\JwtObject.cs" />
+    <Compile Include="Security\JwtService.cs" />
     <Compile Include="Services\ForPaging.cs" />
     <Compile Include="Services\GuestbooksDBService.cs" />
     <Compile Include="Services\ImgCarouselDBService.cs" />
@@ -137,6 +143,7 @@
     <Compile Include="Services\MembersDBService.cs" />
     <Compile Include="ViewModels\GuestbooksViewModel.cs" />
     <Compile Include="ViewModels\ImgCarouselViewModel.cs" />
+    <Compile Include="ViewModels\MembersLoginViewModel.cs" />
     <Compile Include="ViewModels\MembersRegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +199,7 @@
     <Content Include="Views\Members\Register.cshtml" />
     <Content Include="Views\Members\RegisterResult.cshtml" />
     <Content Include="Views\Members\EmailValidate.cshtml" />
+    <Content Include="Views\Members\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
