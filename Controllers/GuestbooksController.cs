@@ -2,6 +2,7 @@
 using HwApp1410931031.Models;
 using HwApp1410931031.Services;
 using HwApp1410931031.ViewModels;
+using Microsoft.Ajax.Utilities;
 
 namespace HwApp1410931031.Controllers
 {
@@ -49,10 +50,12 @@ namespace HwApp1410931031.Controllers
             return PartialView(); // 因為此頁面用於載入至開始頁面中，故使用部分檢視回傳
         }
         // 新增留言傳入資料時的Action
+        [Authorize]
         [HttpPost] // 設定此Action 只接受頁面POST 資料傳入
                    // 使用Bind 的 Include 來定義只接受的欄位，用來避免傳入其他不相干值
-        public ActionResult Create([Bind(Include = "Name, Content")] Guestbooks Data)
+        public ActionResult Create([Bind(Include = "Content")] Guestbooks Data)
         {
+            Data.Account = User.Identity.Name;
             GuestbookService.InsertGuestbooks(Data); // 使用Service 來新增一筆資料
             return RedirectToAction("Index"); // 重新導向頁面至開始頁面
         }
@@ -60,6 +63,7 @@ namespace HwApp1410931031.Controllers
 
         #region 修改留言
         // 修改留言頁面要根據傳入編號來決定要修改的資料
+        [Authorize]
         public ActionResult Edit(int Id)
         {
             // 取得頁面所需資料，藉由Service 取得
@@ -69,9 +73,10 @@ namespace HwApp1410931031.Controllers
         }
 
         // 修改留言傳入資料時的Action
+        [Authorize]
         [HttpPost] // 設定此Action 只接受頁面POST 資料傳入
                    // 使用Bind 的Inculde 來定義只接受的欄位，用來避免傳入其他不相干值
-        public ActionResult Edit(int Id, [Bind(Include = "Name, Content")] Guestbooks UpdateData)
+        public ActionResult Edit(int Id, [Bind(Include = "Content")] Guestbooks UpdateData)
         {
             // 修改資料的是否可修改判斷
             if (GuestbookService.CheckUpdate(Id))
@@ -79,6 +84,7 @@ namespace HwApp1410931031.Controllers
                 // 將編號設定至修改資料中
                 UpdateData.Id = Id;
                 // 使用Service 來修改資料
+                UpdateData.Account = User.Identity.Name;
                 GuestbookService.UpdateGuestbooks(UpdateData);
                 // 重新導向頁面至開始頁面
                 return RedirectToAction("Index");
@@ -93,6 +99,7 @@ namespace HwApp1410931031.Controllers
 
         #region 回覆留言
         // 回覆留言頁面要根據傳入編號來決定要回覆的資料
+        [Authorize(Roles = "Admin")]
         public ActionResult Reply(int Id)
         {
             // 取得頁面所需資料，藉由Service 取得
@@ -101,9 +108,10 @@ namespace HwApp1410931031.Controllers
             return View(Data);
         }
         // 修改留言傳入資料時的Action
+        [Authorize(Roles = "Admin")]
         [HttpPost] // 設定此Action 只接受頁面POST 資料傳入
                    // 使用Bind 的Inculde 來定義只接受的欄位，用來避免傳入其他不相干值
-        public ActionResult Reply(int Id, [Bind(Include = "Reply,ReplyTime")] Guestbooks ReplyData)
+        public ActionResult Reply(int Id, [Bind(Include = "Reply, ReplyTime")] Guestbooks ReplyData)
         {
             // 修改資料的是否可修改判斷
             if (GuestbookService.CheckUpdate(Id))
@@ -125,6 +133,7 @@ namespace HwApp1410931031.Controllers
 
         #region 刪除留言
         // 刪除頁面要根據傳入編號來刪除資料
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int Id)
         {
             // 使用Service 來刪除資料

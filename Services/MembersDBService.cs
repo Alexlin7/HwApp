@@ -201,5 +201,39 @@ namespace HwApp1410931031.Services
         }
         #endregion
 
+        #region 變更密碼
+
+        public string ChangePassword(string Account, string Password, string newPassword)
+        {
+            Members LoginMember = GetDataByAccount(Account);
+            if (PasswordCheck(LoginMember, Password))
+            {
+                LoginMember.Password = HashPassword(newPassword);
+                string sql = $@" update Members set Password = '{LoginMember.Password}' where Account = '{Account}'";
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+                return "密碼修改成功";
+            }
+            else
+            {
+                return "舊密碼輸入錯誤";
+            }
+        }
+        #endregion
+
     }
 }

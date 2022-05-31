@@ -106,8 +106,10 @@ namespace HwApp1410931031.Controllers
 
                 string Token = jwtService.GenerateToken(LoginMember.Account, RoleData);
 
-                HttpCookie cookie = new HttpCookie(cookieName);
-                cookie.Value = Server.UrlEncode(Token);
+                HttpCookie cookie = new HttpCookie(cookieName)
+                {
+                    Value = Server.UrlEncode(Token)
+                };
 
                 Response.Cookies.Add(cookie);
 
@@ -129,14 +131,39 @@ namespace HwApp1410931031.Controllers
         public ActionResult Logout()
         {
             string cookieName = WebConfigurationManager.AppSettings["cookieName"].ToString();
-            HttpCookie cookie = new HttpCookie(cookieName);
+            HttpCookie cookie = new HttpCookie(cookieName)
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            };
             cookie.Values.Clear();
+
             Response.Cookies.Set(cookie);
+
             return RedirectToAction("Login");
         }
         #endregion
 
+        #region 修改留言
 
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordViewModel ChangeData)
+        {
+            if (ModelState.IsValid)
+            {
+                ViewData["ChangeState"] = membersService.ChangePassword(User.Identity.Name, ChangeData.Password, ChangeData.NewPassword);
+            }
+
+            return View();
+        }
+
+        #endregion
     }
 
 }

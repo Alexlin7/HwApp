@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Diagnostics.Eventing.Reader
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -30,8 +31,16 @@
                 </li>
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <li style="color: aqua">您好 : @(User.Identity.Name)</li>
+                    <li>@Html.ActionLink("變更密碼", "ChangePassword", "Members")</li>
                     <li>@Html.ActionLink("登出", "Logout", "Members")</li>
                 }
+                else
+                {
+                    <li>@Html.ActionLink("登入", "login", "Members")</li>
+                    <li>@Html.ActionLink("註冊", "Register", "Members")</li>
+                }
+                
             </ul>
         </div>
     </div>

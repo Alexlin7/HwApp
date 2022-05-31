@@ -13,21 +13,21 @@
 
 @using (Html.BeginForm())
 {
-<table>
+    <table class ="table table-bordered">
     <tr>
-        <td>
+        <td class="col-md-1">
             @Html.LabelFor(model => model.Account)
         </td>
-        <td>
+        <td class="col-md-11">
             @Html.TextBoxFor(model => model.Account)
             @Html.ValidationMessageFor(model => model.Account)
         </td>
     </tr>
     <tr>
-        <td>
+        <td class="col-md-1">
             @Html.LabelFor(model => model.Password)
         </td>
-        <td>
+        <td class="col-md-11">
             @Html.PasswordFor(model => model.Password)
             @Html.ValidationMessageFor(model => model.Password)
         </td>

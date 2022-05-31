@@ -141,6 +141,7 @@
     <Compile Include="Services\ImgCarouselDBService.cs" />
     <Compile Include="Services\MailService.cs" />
     <Compile Include="Services\MembersDBService.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\GuestbooksViewModel.cs" />
     <Compile Include="ViewModels\ImgCarouselViewModel.cs" />
     <Compile Include="ViewModels\MembersLoginViewModel.cs" />
@@ -200,6 +201,7 @@
     <Content Include="Views\Members\RegisterResult.cshtml" />
     <Content Include="Views\Members\EmailValidate.cshtml" />
     <Content Include="Views\Members\Login.cshtml" />
+    <Content Include="Views\Members\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

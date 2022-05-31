@@ -6,23 +6,24 @@
     @* 建立搜尋所須的表單*@
     @using (Ajax.BeginForm("GetDataList", "Guestbooks", new AjaxOptions()
     {
-        InsertionMode = InsertionMode.Replace, UpdateTargetId = "DataList"
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "DataList"
     }))
     {
         <table class="table table-bordered">
             <tr>
                 <td>
                     @Html.LabelFor(model => model.Search)
-            </td>
-            <td>
-                @Html.TextBoxFor(model => model.Search)
-        </td>
-        <td>
-            <input type="submit" value=" 搜尋" />
-        </td>
-    </tr>
-</table>
-}
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Search)
+                </td>
+                <td>
+                    <input type="submit" value=" 搜尋" />
+                </td>
+            </tr>
+        </table>
+    }
 
     <table class="table table-bordered">
         @* 如果資料庫中不是零筆記錄，則顯示資料，並列出新增、刪除與修改連結*@
@@ -32,10 +33,10 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayNameFor(model => model.DataList[0].Name)
+                        @Html.DisplayNameFor(model => model.DataList[0].Member.Name)
                     </td>
                     <td>
-                        @item.Name
+                        @item.Member.Name
                     </td>
                 </tr>
                 <tr>
@@ -73,11 +74,17 @@
                 <tr>
                     <td>
                         @Html.ActionLink(" 修改留言", "Edit", new { Id = item.Id })
-                        @Html.ActionLink(" 刪除留言", "Delete", new { Id = item.Id })
-
+                        @if (User.IsInRole("Admin"))
+                        {
+                            @Html.ActionLink(" 刪除留言", "Delete", new { Id = item.Id })
+                        }
                     </td>
                     <td>
-                        @Html.ActionLink(" 回覆留言", "Reply", new { Id = item.Id }, new { @class = "btn btn-primary" })
+                        @if (User.IsInRole("Admin"))
+                        {
+                            @Html.ActionLink(" 回覆留言", "Reply", new { Id = item.Id }, new { @class = "btn btn-primary" })
+                        }
+
                     </td>
                 </tr>
             }
