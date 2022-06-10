@@ -47,7 +47,6 @@ namespace HwApp1410931031.Services
 
         public void SendRegisterMail(string MailBody, string ToEmail)
         {
-            Console.WriteLine("假裝寄信");
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential(gmail_account, gmail_password);

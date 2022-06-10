@@ -4,10 +4,22 @@
 @* 建立新增資料所須的表單*@
 @using (Html.BeginForm("Create", "Guestbooks"))
 {
+
+
     <h2> 新增留言</h2>
-    <table class="table table-bordered">
+    <table class="table ">
         @* 新增姓名欄位區塊*@
+        @if ((User.Identity.IsAuthenticated))
+        {
+            <tr>目前新增留言帳號:@(User.Identity.Name)</tr>
+        }
+        else
+        {
+            <tr>匿名留言</tr>
+        }
+
         <tr>
+
             <td>
                 @Html.LabelFor(model => model.Content)
             </td>
