@@ -1,0 +1,16 @@
+﻿<div id="DataList">
+    @*呼叫另一Action顯示文章留言陣列*@
+    @Html.Action("MessageList", new { A_Id = ViewData["A_Id"] })
+</div>
+<div id="MessageCreate">
+    @*判斷是否有登入，若有登入才顯示建立文章留言頁面*@
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.Action("Create", new { A_Id = ViewData["A_Id"] })
+    }
+    else
+    {
+        <text>要留言請先</text>
+        @Html.ActionLink("登入", "Login", "Members")
+    }
+</div>

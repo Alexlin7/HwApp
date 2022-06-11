@@ -1,0 +1,139 @@
+﻿@model HwApp1410931031.ViewModels.MessageViewModel
+
+<div id="MessageList">
+    <h2>留言區</h2>
+    <table>
+        @*如果資料庫中不是零筆記錄，則顯示資料，並列出新增、刪除與修改連結*@
+        @if (!Model.DataList.Count.Equals(0))
+        {
+            foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataList[0].Account)
+                    </td>
+                    <td>
+                        @item.Account
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataList[0].Content)
+                    </td>
+                    <td colspan="3">
+                        @item.Content
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DataList[0].CreateTime)
+                    </td>
+                    <td>
+                        @item.CreateTime
+                    </td>
+                </tr>
+                @*判斷是否有登入又是留言者人才可使用修改/刪除留言*@
+                if (User.Identity.IsAuthenticated)
+                {
+                    if (User.Identity.Name == item.Account)
+                    {
+                        <tr>
+                            <td id="EditMessageBlock" colspan="2">
+                                <button class="editMessage btn btn-primary">修改留言</button>
+                                <button class="btn btn-danger" onclick="location.href='@Url.Action("DeleteMessage", "Message", new { M_Id = item.M_Id, A_Id = item.A_Id })';return false;">刪除留言</button>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2">
+                                非此則留言者不可進行修改、刪除等動作
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">
+                    本篇文章尚未有人留言
+                </td>
+            </tr>
+        }
+    </table>
+    @*產生頁碼按鈕*@
+    <div class="col-xs-12 text-center">
+        <ul class="pagination">
+            @*顯示上一頁與最前頁按鈕*@
+            <li class="first @((Model.Paging.NowPage > 1) ? "" : " disabled")">
+                @Ajax.ActionLink("<<", "MessageList", new { A_Id = Model.A_Id, Page = 1 },
+                    new AjaxOptions
+                         {
+                             UpdateTargetId = "DataList"
+                    ,
+                             InsertionMode = InsertionMode.Replace
+                         })
+            </li>
+            <li class="pervious @((Model.Paging.NowPage > 1) ? "" : " disabled")">
+                @Ajax.ActionLink("<", "MessageList", new { A_Id = Model.A_Id, Page = Model.Paging.NowPage - 1 },
+                    new AjaxOptions
+                         {
+                             UpdateTargetId = "DataList"
+                    ,
+                             InsertionMode = InsertionMode.Replace
+                         })
+            </li>
+            @*顯示各個頁次按鈕*@
+            @for (var page = (Model.Paging.NowPage - 6);
+                    page < (Model.Paging.NowPage + 6); page++)
+            {
+                if ((page > 0) && (page <= Model.Paging.MaxPage))
+                {
+                    if (page == Model.Paging.NowPage)
+                    {
+                        <li class="active">
+                            <a href="#">@page</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            @Ajax.ActionLink(page.ToString(), "MessageList", new { A_Id = Model.A_Id, Page = page },
+                                new AjaxOptions
+                                     {
+                                         UpdateTargetId = "DataList"
+                                ,
+                                         InsertionMode = InsertionMode.Replace
+                                     })
+                        </li>
+                    }
+                }
+            }
+            @*顯示下一頁與最後一頁的按鈕*@
+            <li class="next @(((Model.Paging.NowPage < Model.Paging.MaxPage)
+        ? "" : " disabled"))">
+                @Ajax.ActionLink(">", "MessageList", new { A_Id = Model.A_Id, Page = Model.Paging.NowPage + 1 },
+                    new AjaxOptions
+                         {
+                             UpdateTargetId = "DataList"
+                    ,
+                             InsertionMode = InsertionMode.Replace
+                         })
+            </li>
+            <li class="last @(((Model.Paging.NowPage < Model.Paging.MaxPage)
+        ? "" : " disabled"))">
+                @Ajax.ActionLink(">>", "MessageList", new { A_Id = Model.A_Id, Page = Model.Paging.MaxPage },
+                    new AjaxOptions
+                         {
+                             UpdateTargetId = "DataList"
+                    ,
+                             InsertionMode = InsertionMode.Replace
+                         })
+            </li>
+        </ul>
+    </div>
+</div>

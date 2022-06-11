@@ -9,14 +9,7 @@
     <h2> 新增留言</h2>
     <table class="table ">
         @* 新增姓名欄位區塊*@
-        @if ((User.Identity.IsAuthenticated))
-        {
-            <tr>目前新增留言帳號:@(User.Identity.Name)</tr>
-        }
-        else
-        {
-            <tr>匿名留言</tr>
-        }
+        <tr>目前新增留言帳號:@(User.Identity.Name)</tr>
 
         <tr>
 
@@ -31,5 +24,5 @@
         @* 新增內容欄位區塊*@
     </table>
     <input class="btn btn-success" type="submit" value=" 新增留言" />
-
 }
+

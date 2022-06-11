@@ -1,0 +1,146 @@
+﻿@model HwApp1410931031.ViewModels.ArticleIndexViewModel
+@{
+    ViewBag.Title = "文章列表";
+}
+
+<div id="ArticleList" class="table-responsive">
+    @*標題*@
+    <div class="page-header">
+        <h1>文章列表</h1>
+    </div>
+    @*建立搜尋文章所須的表單*@
+    @using (Ajax.BeginForm("List", "Article", new { Account = Model.Account },
+        new AjaxOptions
+        {
+            UpdateTargetId = "ArticleListBlock"
+        ,
+            InsertionMode = InsertionMode.Replace
+        }, null))
+    {
+        <div class="form-group">
+            <div class="col-xs-2 col-md-3 input-group">
+                @Html.TextBoxFor(model => model.Search, new { @class = "form-control" })
+                <div class="input-group-btn">
+                    <input class="btn btn-primary" type="submit" value="搜尋" />
+                </div>
+            </div>
+        </div>
+    }
+    <table class="table table-hover">
+        @*如果資料庫中不是零筆記錄，則顯示資料，並列出新增、刪除與修改連結*@
+        @if (!Model.DataList.Count.Equals(0))
+        {
+            @*設定表格的表頭標題*@
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.DataList[0].Title)：
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.DataList[0].CreateTime)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.DataList[0].Watch)
+                    </th>
+                </tr>
+            </thead>
+            @*將文章顯示於表格中*@
+            foreach (var item in Model.DataList)
+            {
+                <tr>
+                    <td class="text-center">
+                        @*@item.Title*@
+                        @Html.ActionLink(item.Title, "Article", new { A_Id = item.A_Id })
+                    </td>
+                    <td class="text-center">
+                        @item.CreateTime
+
+                    </td>
+                    <td class="text-right">
+                        @item.Watch
+                    </td>
+                </tr>
+            }
+        }
+        @*如果資料庫中為零筆記錄，則印出"資料庫內查無資料"*@
+        else
+        {
+            <tr>
+                <td colspan="4">
+                    尚未有文章
+                </td>
+            </tr>
+        }
+    </table>
+    @*產生頁碼按鈕*@
+    <div class="col-xs-12 text-center">
+        <ul class="pagination">
+            @*顯示上一頁與最前頁按鈕*@
+            <li class="first @((Model.Paging.NowPage > 1) ? "" : " disabled")">
+                @Ajax.ActionLink("<<", "List", new { Account = Model.Account, Page = 1 },
+                    new AjaxOptions
+                         {
+                             UpdateTargetId = "ArticleListBlock"
+                    ,
+                             InsertionMode = InsertionMode.Replace
+                         })
+            </li>
+            <li class="pervious @((Model.Paging.NowPage > 1) ? "" : " disabled")">
+                @Ajax.ActionLink("<", "List", new { Account = Model.Account, Page = Model.Paging.NowPage - 1 },
+                    new AjaxOptions
+                         {
+                             UpdateTargetId = "ArticleListBlock"
+                    ,
+                             InsertionMode = InsertionMode.Replace
+                         })
+            </li>
+            @*顯示各個頁次按鈕*@
+            @for (var page = (Model.Paging.NowPage - 6);
+                    page < (Model.Paging.NowPage + 6); page++)
+            {
+                if ((page > 0) && (page <= Model.Paging.MaxPage))
+                {
+                    if (page == Model.Paging.NowPage)
+                    {
+                        <li class="active">
+                            <a href="#">@page</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            @Ajax.ActionLink(page.ToString(), "List", new { Account = Model.Account, Page = page },
+                                new AjaxOptions
+                                     {
+                                         UpdateTargetId = "ArticleListBlock"
+                                ,
+                                         InsertionMode = InsertionMode.Replace
+                                     })
+                        </li>
+                    }
+                }
+            }
+            @*顯示下一頁與最後一頁的按鈕*@
+            <li class="next @(((Model.Paging.NowPage < Model.Paging.MaxPage)
+        ? "" : " disabled"))">
+                @Ajax.ActionLink(">", "List", new { Account = Model.Account, Page = Model.Paging.NowPage + 1 },
+                    new AjaxOptions
+                         {
+                             UpdateTargetId = "ArticleListBlock"
+                    ,
+                             InsertionMode = InsertionMode.Replace
+                         })
+            </li>
+            <li class="last @(((Model.Paging.NowPage < Model.Paging.MaxPage)
+        ? "" : " disabled"))">
+                @Ajax.ActionLink(">>", "List", new { Account = Model.Account, Page = Model.Paging.MaxPage },
+                    new AjaxOptions
+                         {
+                             UpdateTargetId = "ArticleListBlock"
+                    ,
+                             InsertionMode = InsertionMode.Replace
+                         })
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,12 +1,19 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 using HwApp1410931031.Models;
 
 namespace HwApp1410931031.ViewModels
 {
     public class MembersRegisterViewModel
     {
-        public  Members NewMember { get; set; }
+        [DisplayName("大頭照")]
+        public HttpPostedFileBase MembersImage { get; set; }
+
+        public Members NewMember { get; set; }
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "請輸入密碼")]

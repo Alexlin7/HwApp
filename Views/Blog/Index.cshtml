@@ -1,0 +1,93 @@
+﻿@model HwApp1410931031.ViewModels.BlogViewModel
+@{
+    ViewBag.Title = "部落格首頁";
+}
+@*匯入JavaScript*@
+@section scripts
+    {
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
+    @*匯入驗證與AJAX所需要的JavaScript*@
+    @Scripts.Render("~/bundles/jqueryval")
+    @*匯入本頁面的JavaScript*@
+    @Scripts.Render("~/jQuery/Article/ArticleList.js")
+}
+<style>
+    #DataList, #form1 {
+        margin-top: 20px;
+    }
+
+    .body-content {
+        width: 100% !important;
+    }
+
+    .btn-default {
+        width: 80%;
+    }
+</style>
+@*標題*@
+<div class="page-header">
+    <h1>@Html.ActionLink(Model.Member.Name + "的部落格", "Index", new { Account = Model.Member.Account })</h1>
+</div>
+
+<div id="BlogBlock">
+    <div id="LeftBlock" class="col-md-8 col-lg-8 col-sm-8">
+        @*-------- 人氣文章表單Start -------*@
+        @*載入文章列表內容*@
+        <div id="PopularityListBlock">
+            @Html.Action("ShowPopularity", "Article", new { Account = Model.Member.Account })
+        </div>
+        @*-------- 人氣文章表單End -------*@
+        @*-------- 文章表單Start -------*@
+        @*載入文章列表內容*@
+        <div id="ArticleListBlock">
+            @Html.Action("List", "Article", new { Account = Model.Member.Account })
+        </div>
+        @*-------- 文章表單End -------*@
+
+    </div>
+    <div id="RightBlock" class="col-md-4 col-lg-4 col-sm-4">
+        <table>
+            <tr>
+                @*顯示大頭照*@
+                <td>
+                    <img width="200"
+                         src="@Html.Encode(Url.Content("~/Upload/Members/" + Model.Member.Image))" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>@Html.DisplayNameFor(model => model.Member.Name)：@Model.Member.Name</h4>
+                </td>
+            </tr>
+        </table>
+        @*判斷是否有登入，登入後才可使用新增文章*@
+        @if (User.Identity.IsAuthenticated)
+        {
+            @*新增文章按鈕，並設定使用AJAX取得內容後開啟跳窗*@
+            @Ajax.ActionLink("新增文章", "Create", "Article", null,
+                new AjaxOptions
+                    {
+                        UpdateTargetId = "CreateArticleModal",
+
+                        InsertionMode = InsertionMode.Replace
+                    },
+                new
+                    {
+                        @class = "btn btn-primary",
+                        @data_toggle = "modal",
+                        @data_target = "#CreateArticleModal"
+                    })
+            @*新增文章預留表單跳窗 若無反應則需檢查是否有套用第七章所提及之Ajax套件，並引入*@
+            <div class="modal fade" id="CreateArticleModal" tabindex="-1"
+                 role="dialog" aria-labelledby="CreateArticleModalLabel" aria-hidden="true">
+            </div>
+        }
+        else
+        {
+            <text>要新增文章請先</text>
+            @Html.ActionLink("登入", "Login", "Members")
+        }
+
+    </div>
+</div>

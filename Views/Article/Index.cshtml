@@ -1,0 +1,51 @@
+﻿@model HwApp1410931031.ViewModels.ArticleIndexViewModel
+@{
+    ViewBag.Title = "文章首頁";
+}
+@*匯入JavaScript*@
+@section scripts
+{
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
+    @*匯入驗證與AJAX所須的JavaScript*@
+    @Scripts.Render("~/bundles/jqueryval")
+    @*匯入本頁面的JavaScript*@
+    @Scripts.Render("~/jQuery/Article/ArticleList.js")
+}
+@*-------- 人氣文章表單Start -------*@
+@*載入文章列表內容*@
+<div id="PopularityListBlock">
+    @Html.Action("ShowPopularity", "Article")
+</div>
+@*-------- 人氣文章表單End -------*@
+@*載入文章列表內容*@
+<div id="ArticleListBlock">
+    @Html.Action("List", "Article")
+</div>
+@*判斷是否有登入，登入後才可使用新增文章*@
+@if (User.Identity.IsAuthenticated)
+{
+    @*新增文章按鈕，並設定使用AJAX取得內容後開啟跳窗*@
+    @Ajax.ActionLink("新增文章", "Create", "Article", null,
+        new AjaxOptions
+            {
+                UpdateTargetId = "CreateArticleModal",
+        InsertionMode = InsertionMode.Replace
+            },
+        new
+            {
+                @class = "btn btn-primary",
+                @data_toggle = "modal",
+        @data_target = "#CreateArticleModal"
+            })
+    @*新增文章預留表單跳窗*@
+    <div class="modal fade" id="CreateArticleModal" tabindex="-1"
+         role="dialog" aria-labelledby="CreateArticleModalLabel" aria-hidden="true">
+
+    </div>
+}
+else
+{
+    <text>要新增文章請先</text>
+    @Html.ActionLink("登入", "Login", "Members")
+}

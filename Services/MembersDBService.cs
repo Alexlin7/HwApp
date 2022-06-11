@@ -26,10 +26,11 @@ namespace HwApp1410931031.Services
 
             //SQL 
             string sql = $@" INSERT INTO Members 
-                                (Account,Password,Name,Email,AuthCode,IsAdmin) 
+                                (Account,Password,Name,Image,Email,AuthCode,IsAdmin) 
                                 VALUES ('{newMember.Account}',
                                         '{newMember.Password}',
                                         '{newMember.Name}',
+                                        '{newMember.Image}',
                                         '{newMember.Email}',
                                         '{newMember.AuthCode}',
                                         '0') " ;
@@ -235,5 +236,51 @@ namespace HwApp1410931031.Services
         }
         #endregion
 
+        #region 查詢一筆公開性資料
+        public Members GetDatabyAccount(string Account)
+        {
+            Members Data = new Members();
+
+            string sql = $@" select * from Members where Account = '{Account}' ";
+
+            try
+            {
+
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                dr.Read(); 
+                Data.Image = dr["Image"].ToString();
+                Data.Name = dr["Name"].ToString();
+                Data.Account = dr["Account"].ToString();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Data = null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return Data;
+        }
+        #endregion
+
+        #region 檢查圖片類型
+        public bool CheckImage(string ContentType)
+        {
+            switch (ContentType)
+            {
+                case "image/jpg":
+                case "image/jpeg":
+                case "image/png":
+                    return true;
+            }
+            return false;
+        }
+        #endregion
     }
 }

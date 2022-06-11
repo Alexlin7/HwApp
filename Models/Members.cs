@@ -32,5 +32,8 @@ namespace HwApp1410931031.Models
         public string AuthCode { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        [DisplayName("大頭照")]
+        public string Image { get; set; }
     }
 }

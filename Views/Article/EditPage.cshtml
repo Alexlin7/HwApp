@@ -1,0 +1,57 @@
+﻿@model HwApp1410931031.Models.Article
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 class="modal-title">
+                修改文章
+            </h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                @*建立修改留言所須的表單*@
+                @using (Html.BeginForm("EditPage", "Article", new { A_Id = Model.A_Id }, FormMethod.Post, null))
+                {
+                    @*產生修改文章資料表單內容*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Account
+                        , new { @class = "col-xs-4 form-label" })
+                        <div class="col-xs-8">
+                            @Model.Member.Name
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, new
+                        {
+                        @class = "col-xs-4 form-label"
+                        })
+                        <div class="col-xs-8">
+                            @Model.Title
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Content, new
+                        {
+                        @class = "col-xs-4 form-label"
+                        })
+                        <div class="col-xs-8">
+                            @Html.TextAreaFor(model => model.Content, new
+                            {
+                            @class = "form-control"
+                            })
+                            @Html.ValidationMessageFor(model => model.Content
+                            , null, new { @class = "label label-danger" })
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input class="btn btn-primary" id="editBtn" type="button"
+                   value="修改文章" />
+            <input class="btn btn-danger" data-dismiss="modal" type="button"
+                   value="取消" />
+        </div>
+    </div>
+</div>

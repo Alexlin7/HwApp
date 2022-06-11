@@ -1,68 +1,74 @@
 ﻿@model HwApp1410931031.ViewModels.MembersRegisterViewModel
 
+
 @{
     ViewBag.Title = "註冊";
 }
-
-@section scripts
-{
+@*匯入驗證用所須的JavaScript*@
+@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-<h2>註冊</h2>
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
-    <table>
-        <tr>
-            <td>
-                @Html.LabelFor(model => model.NewMember.Account)
-            </td>
-            <td>
-                @Html.TextBoxFor(model => model.NewMember.Account)
-                @Html.ValidationMessageFor(model => model.NewMember.Account)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.LabelFor(model => model.Password)
-            </td>
-            <td>
-                @Html.PasswordFor(model => model.Password)
-                @Html.ValidationMessageFor(model => model.Password)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.LabelFor(model => model.PasswordCheck)
-            </td>
-            <td>
-                @Html.PasswordFor(model => model.PasswordCheck)
-                @Html.ValidationMessageFor(model => model.PasswordCheck)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.LabelFor(model => model.NewMember.Name)
-            </td>
-            <td>
-                @Html.TextBoxFor(model => model.NewMember.Name)
-                @Html.ValidationMessageFor(model => model.NewMember.Name)
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.LabelFor(model => model.NewMember.Email)
-            </td>
-            <td>
-                @Html.TextBoxFor(model => model.NewMember.Email)
-                @Html.ValidationMessageFor(model => model.NewMember.Email)
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="註冊"/>
-            </td>
-        </tr>
-    </table>
-}
-
+@*標題*@
+<div class="page-header">
+    <h1>註冊</h1>
+</div>
+<div class="form-horizontal">
+    @*建立註冊會員所須的表單*@
+    @using (Html.BeginForm("Register", "Members", FormMethod.Post
+        , new { enctype = "multipart/form-data" }))
+    {
+        @*顯示彙總的表單驗證的錯誤訊息*@
+        <div class="alert alert-warning">
+            @Html.ValidationSummary()
+        </div>
+        @*產生註冊新會員資料表單內容*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewMember.Account, new { @class = "col-xs-4 col-md-1 form-label" })
+            <div class="col-xs-8 col-md-11">
+                @Html.TextBoxFor(model => model.NewMember.Account, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NewMember.Account, null, new { @class = "label label-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, new { @class = "col-xs-4 col-md-1 form-label" })
+            <div class="col-xs-8 col-md-11">
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password, null, new { @class = "label label-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PasswordCheck, new { @class = "col-xs-4 col-md-1 form-label" })
+            <div class="col-xs-8 col-md-11">
+                @Html.PasswordFor(model => model.PasswordCheck, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PasswordCheck, null, new { @class = "label label-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewMember.Name, new { @class = "col-xs-4 col-md-1 form-label" })
+            <div class="col-xs-8 col-md-11">
+                @Html.TextBoxFor(model => model.NewMember.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NewMember.Name, null, new { @class = "label label-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewMember.Email, new { @class = "col-xs-4 col-md-1 form-label" })
+            <div class="col-xs-8 col-md-11">
+                @Html.TextBoxFor(model => model.NewMember.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NewMember.Email, null, new { @class = "label label-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.MembersImage, new { @class = "col-xs-4 col-md-1 form-label" })
+            <div class="col-xs-8 col-md-11">
+                @Html.TextBoxFor(model => model.MembersImage, new { @class = "form-control", type = "file" })
+                @Html.ValidationMessageFor(model => model.MembersImage, null, new { @class = "label label-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <input class="btn btn-primary" type="submit" value="註冊" />
+            </div>
+        </div>
+    }
+</div>

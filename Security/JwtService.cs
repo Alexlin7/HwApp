@@ -18,17 +18,14 @@ namespace HwApp1410931031.Security
             {
                 Account = Account,
                 Role = Role,
-                Expire = DateTime.Now.AddMinutes(
-                        Convert.ToInt32(WebConfigurationManager.AppSettings["ExpireMinutes"]))
-                    .ToString()
+                Expire = DateTime.Now.AddMinutes(Convert.ToInt32(WebConfigurationManager.AppSettings["ExpireMinutes"])).ToString()
             };
-
             string SecretKey = WebConfigurationManager.AppSettings["SecretKey"].ToString();
             var payload = jwtObject;
             var token = JWT.Encode(payload, Encoding.UTF8.GetBytes(SecretKey), JwsAlgorithm.HS512);
             return token;
         }
-        
+
 
         #endregion
     }
