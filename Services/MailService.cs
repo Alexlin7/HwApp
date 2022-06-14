@@ -8,9 +8,9 @@ namespace HwApp1410931031.Services
 {
     public class MailService
     {
-        private string gmail_account = "alexlin901107";
-        private string gmail_password = "keyeslgycqiymeqx";
-        private string gmail_mail = "alexlin901107@gmail.com";
+        private string gmail_account = "";
+        private string gmail_password = "";
+        private string gmail_mail = "";
 
         #region 寄送會員驗證信件
 
